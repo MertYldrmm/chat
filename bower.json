@@ -1,0 +1,17 @@
+{
+  "name": "chat-program",
+  "description": "",
+  "main": "",
+  "authors": [
+    "MertYldrmm <mert.yyldrim@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "chat",
+    "nodejs"
+  ],
+  "homepage": "https://github.com/MertYldrmm/chat",
+  "dependencies": {
+    "angular": "^1.8.2"
+  }
+}
