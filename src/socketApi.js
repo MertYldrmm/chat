@@ -25,6 +25,11 @@ io.on('connection', (socket) => {
     console.log('a user logged in with name '+socket.request.user.name);
 
     Users.upsert(socket.id, socket.request.user);
+    
+    Users.list(users => {
+        console.log(users);
+    });
+
     socket.on('disconnect', () => {
         Users.remove(socket.request.user.googleId);
     });
