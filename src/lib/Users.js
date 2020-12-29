@@ -19,7 +19,21 @@ Users.prototype.upsert = function( connectionId, meta){
             when: Date.now()
         }),
         err => {
-            console.log(err);
+            if(err){
+                console.log(err);
+            }
+        }
+    )
+}
+
+Users.prototype.remove = function( googleId){
+    this.client.hdel(
+        'online',
+        googleId,
+        err => {
+            if(err){
+                console.log(err);
+            }
         }
     )
 }
