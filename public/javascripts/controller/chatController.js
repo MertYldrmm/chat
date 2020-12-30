@@ -7,7 +7,9 @@ app.controller('chatController', ['$scope', ($scope) => {
     $scope.activeTab = 2;
     $scope.chatClicked = false;
     $scope.chatName = "";
-    
+    $scope.roomId ="";
+    $scope.message = "";
+
     /**
      * Socket.io event handling.
      */
@@ -22,10 +24,20 @@ app.controller('chatController', ['$scope', ($scope) => {
         $scope.$apply();
     });
 
+    $scope.newMessage = () => {
+        socket.emit('newMessage', {
+            message: $scope.message,
+            roomId: $scope.roomId
+        });
+        $scope.message="";
+    };
+
     $scope.switchRoom = (room) => {
         $scope.chatName = room.name;
+        $scope.roomId = room.id;
         $scope.chatClicked = true;
     };
+
     $scope.newRoom = () =>{
         //let randomName = Math.random().toString(36).substring(7);
 
