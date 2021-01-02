@@ -37,25 +37,48 @@ app.controller('chatController', ['$scope','chatFactory', 'userFactory', ($scope
         $scope.$apply();
     });
 
-    $scope.newMessage = () => {
-        socket.emit('newMessage', {
-            message: $scope.message,
-            roomId: $scope.roomId
+    socket.on('receiveMessage', data => {
+        $scope.messages[data.roomId].push({
+            userId: data.userId,
+            username: data.username,
+            surname: data.surname,
+            message: data.message
         });
-        $scope.message="";
+        $scope.$apply();
+    });
 
+    $scope.newMessage = () => {
+        if($scope.message.trim() !== ''){
+            socket.emit('newMessage', {
+                message: $scope.message,
+                roomId: $scope.roomId
+            });
+
+            $scope.messages[$scope.roomId].push({
+                userId: $scope.user._id,
+                username: $scope.user.name,
+                surname: $scope.user.surname,
+                message: $scope.message
+            });
+
+            $scope.message="";
+        }   
     };
 
     $scope.switchRoom = (room) => {
         $scope.chatName = room.name;
         $scope.roomId = room.id;
         $scope.chatClicked = true;
-        $scope.loadingMessages = true;
 
-        chatFactory.getMessages(room.id).then(data => {
-            $scope.messages[room.id] = data;
-            $scope.loadingMessages = false;
-        });
+        if(!$scope.messages.hasOwnProperty(room.id)){
+            $scope.loadingMessages = true;
+            console.log("servise bağlanıyor.");
+
+            chatFactory.getMessages(room.id).then(data => {
+                $scope.messages[room.id] = data;
+                $scope.loadingMessages = false;
+            });
+        }
 
     };
 
