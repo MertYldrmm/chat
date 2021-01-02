@@ -425,6 +425,12 @@ ul,li{
     padding-top: 16px
 }
 
+.loading{
+    text-align: center;
+    font-size: 18px;
+    padding: 20px 0
+}
+
 @keyframes slideFromLeft {
     0% {
         margin-left: -200px;
